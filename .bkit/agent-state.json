@@ -1,0 +1,32 @@
+{
+  "version": "1.0",
+  "enabled": true,
+  "teamName": "",
+  "feature": "jooladen-test",
+  "pdcaPhase": "do",
+  "orchestrationPattern": "leader",
+  "ctoAgent": "opus",
+  "startedAt": "2026-02-20T10:22:27.726Z",
+  "lastUpdated": "2026-02-20T10:23:17.874Z",
+  "teammates": [
+    {
+      "name": "ac45bbf",
+      "role": "bkit:gap-detector",
+      "model": "sonnet",
+      "status": "completed",
+      "currentTask": null,
+      "taskId": null,
+      "startedAt": "2026-02-20T10:22:27.729Z",
+      "lastActivityAt": "2026-02-20T10:23:17.866Z"
+    }
+  ],
+  "progress": {
+    "totalTasks": 0,
+    "completedTasks": 0,
+    "inProgressTasks": 0,
+    "failedTasks": 0,
+    "pendingTasks": 0
+  },
+  "recentMessages": [],
+  "sessionId": "8e344d12-ba42-4f27-af58-cca5f1bc32a2"
+}

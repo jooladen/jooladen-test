@@ -35,10 +35,10 @@
 - 이후: vercel --prod --yes (자동 배포)
 - .vercel 폴더 존재 여부로 최초/이후 자동 판단
 - 배포 완료 후 URL을 deploy_log.txt에 기록
-- for %I in (.) do curl -H "Content-Type: text/plain" -d "[기능명] 배포완료! [URL]" ntfy.sh/jooladen-%~nxI
+- FOLDER_NAME=$(basename $(pwd)) && node -e "require('https').request('https://ntfy.sh/jooladen-${FOLDER_NAME}',{method:'POST',headers:{'Content-Type':'text/plain; charset=utf-8'}},r=>r.resume()).end(Buffer.from('[기능명] 배포완료! [URL]','utf8'))"
 
 ## 자동화 규칙
-## 전체자동 헬로월드 버튼클릭카운터
+## 전체자동 헬로월드 버튼클릭카운터 헬로월드2
 "전체자동 [기능1] [기능2]..." 라고 하면
 각 기능을 순서대로 멈추지 말고 끝까지 실행할 것
 
@@ -50,21 +50,22 @@
   2. npm run build (빌드 성공 확인 - 실패시 에러 처리 규칙으로)
   3. git add . && git commit -m "feat: [기능명] 완료"
   4. git push
-  5. vercel --prod --yes (배포)
-  6. 배포 URL을 deploy_log.txt에 기록
-  7. for %I in (.) do curl -H "Content-Type: text/plain" -d "[기능명] 완료! 배포: [URL]" ntfy.sh/jooladen-%~nxI
-  8. echo "[기능명] clear 시도" >> clear_log.txt
-  9. /clear 실행
-  10. /context >> context_after_clear.txt
-  11. sleep 3
-  12. for %I in (.) do curl -H "Content-Type: text/plain" -d "@context_after_clear.txt" ntfy.sh/jooladen-%~nxI
-  13. echo "[기능명] clear 성공 확인" >> clear_log.txt
-  14. (새 세션 시작시) echo "새 세션 시작 - 다음기능: [다음기능명]" >> clear_log.txt
-  15. for %I in (.) do curl -H "Content-Type: text/plain" -d "새 세션 시작 - 다음기능: [다음기능명]" ntfy.sh/jooladen-%~nxI
-  16. CLAUDE.md 읽고 [ ] 남은 다음 기능 자동 시작
-  17. 모든 기능 [x] 되면:
-     - for %I in (.) do curl -H "Content-Type: text/plain" -d "%~nxI 전체 완료! 🎉" ntfy.sh/jooladen-%~nxI
+  5. 남은 [ ] 기능이 있으면 → 다음 기능으로 진행 (배포 없이)
+  6. 모든 기능 [x]이면 (마지막 기능):
+     - vercel --prod --yes (배포)
+     - 배포 URL을 deploy_log.txt에 기록
+     - FOLDER_NAME=$(basename $(pwd)) && node -e "require('https').request('https://ntfy.sh/jooladen-${FOLDER_NAME}',{method:'POST',headers:{'Content-Type':'text/plain; charset=utf-8'}},r=>r.resume()).end(Buffer.from('[기능명] 완료! 배포: [URL]','utf8'))"
+     - FOLDER_NAME=$(basename $(pwd)) && node -e "require('https').request('https://ntfy.sh/jooladen-${FOLDER_NAME}',{method:'POST',headers:{'Content-Type':'text/plain; charset=utf-8'}},r=>r.resume()).end(Buffer.from('${FOLDER_NAME} 전체 완료! 🎉','utf8'))"
      - "전체완료!" 출력 후 종료
+  7. echo "[기능명] clear 시도" >> clear_log.txt
+  8. /clear 실행
+  9. /context >> context_after_clear.txt
+  10. sleep 3
+  11. FOLDER_NAME=$(basename $(pwd)) && node -e "const fs=require('fs'),https=require('https'),d=fs.readFileSync('context_after_clear.txt');https.request('https://ntfy.sh/jooladen-${FOLDER_NAME}',{method:'POST',headers:{'Content-Type':'text/plain; charset=utf-8','Content-Length':d.length}},r=>r.resume()).end(d)"
+  12. echo "[기능명] clear 성공 확인" >> clear_log.txt
+  13. (새 세션 시작시) echo "새 세션 시작 - 다음기능: [다음기능명]" >> clear_log.txt
+  14. FOLDER_NAME=$(basename $(pwd)) && node -e "require('https').request('https://ntfy.sh/jooladen-${FOLDER_NAME}',{method:'POST',headers:{'Content-Type':'text/plain; charset=utf-8'}},r=>r.resume()).end(Buffer.from('새 세션 시작 - 다음기능: [다음기능명]','utf8'))"
+  15. CLAUDE.md 읽고 [ ] 남은 다음 기능 자동 시작
 - 절대 멈추거나 사용자한테 묻지 말 것
 
 ## 에러 처리 규칙
@@ -82,7 +83,7 @@
 - 에러 수정 완료되면:
   1. git add . && git commit -m "fix: [기능명] - [에러 한 줄 요약]"
   2. git push
-  3. for %I in (.) do curl -H "Content-Type: text/plain" -d "[기능명] 에러 발생! ERROR.md 확인" ntfy.sh/jooladen-%~nxI
+  3. FOLDER_NAME=$(basename $(pwd)) && node -e "require('https').request('https://ntfy.sh/jooladen-${FOLDER_NAME}',{method:'POST',headers:{'Content-Type':'text/plain; charset=utf-8'}},r=>r.resume()).end(Buffer.from('[기능명] 에러 발생! ERROR.md 확인','utf8'))"
 - 3회 실패시 ERROR.md 기록 후 다음 기능으로 넘어갈 것
 - 절대 멈추지 말 것
 
@@ -95,7 +96,9 @@
 ## 실행 대기 기능 목록
 - [x] 헬로월드
 - [x] 버튼클릭카운터
+- [x] 헬로월드2
 
 ## 완료된 기능
 - 헬로월드 (2026-02-20)
 - 버튼클릭카운터 (2026-02-20)
+- 헬로월드2 (2026-02-20)

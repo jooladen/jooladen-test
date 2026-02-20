@@ -35,7 +35,7 @@
 ## - 이후: vercel --prod --yes (자동 배포)
 ## - .vercel 폴더 존재 여부로 최초/이후 자동 판단
 ## - 배포 완료 후 URL을 deploy_log.txt에 기록
-- curl -H "Content-Type: text/plain; charset=utf-8" -d "[기능명] 배포완료! [URL]" "https://ntfy.sh/${PWD##*/}"
+- curl -H "Content-Type: text/plain; charset=utf-8" -d "${FEATURE} 배포완료! ${DEPLOY_URL}" "https://ntfy.sh/${PWD##*/}"
 
 ## 자동화 규칙
 ## 전체자동 헬로월드 버튼클릭카운터 헬로월드2 버튼클릭카운터2 버튼클릭카운터3
@@ -45,26 +45,32 @@
 순서: plan → design → do → analyze → iterate → report
 - 중간에 사용자 확인 요청 금지
 - iterate는 90% 달성까지 자동 반복 (최대 5회)
+- 각 기능 시작 전 변수 설정:
+  ```bash
+  FEATURE="현재기능명"        # 예: 버튼클릭카운터3
+  NEXT_FEATURE="다음기능명"   # 예: (없으면 빈 문자열)
+  DEPLOY_URL="배포URL"        # 예: https://jooladen-test.vercel.app
+  ```
 - 기능 1개 report 완료되면:
   1. 실행 대기 목록에서 [ ] 를 [x] 로 변경
   2. npm run build (빌드 성공 확인 - 실패시 에러 처리 규칙으로)
-  3. git add . && git commit -m "feat: [기능명] 완료"
+  3. git add . && git commit -m "feat: ${FEATURE} 완료"
   4. git push
   5. 남은 [ ] 기능이 있으면 → 다음 기능으로 진행 (배포 없이)
   6. 모든 기능 [x]이면 (마지막 기능):
      ## - vercel --prod --yes (배포)
      ## - 배포 URL을 deploy_log.txt에 기록
-     - curl -H "Content-Type: text/plain; charset=utf-8" -d "[기능명] 완료! 배포: [URL]" "https://ntfy.sh/${PWD##*/}"
+     - curl -H "Content-Type: text/plain; charset=utf-8" -d "${FEATURE} 완료! 배포: ${DEPLOY_URL}" "https://ntfy.sh/${PWD##*/}"
      - curl -H "Content-Type: text/plain; charset=utf-8" -d "${PWD##*/} 전체 완료! 🎉" "https://ntfy.sh/${PWD##*/}"
      - "전체완료!" 출력 후 종료
-  7. echo "[기능명] clear 시도" >> clear_log.txt
+  7. echo "${FEATURE} clear 시도" >> clear_log.txt
   8. /clear 실행
   9. /context >> context_after_clear.txt
   10. sleep 3
   11. curl -H "Content-Type: text/plain; charset=utf-8" -d @context_after_clear.txt "https://ntfy.sh/${PWD##*/}"
-  12. echo "[기능명] clear 성공 확인" >> clear_log.txt
-  13. (새 세션 시작시) echo "새 세션 시작 - 다음기능: [다음기능명]" >> clear_log.txt
-  14. curl -H "Content-Type: text/plain; charset=utf-8" -d "새 세션 시작 - 다음기능: [다음기능명]" "https://ntfy.sh/${PWD##*/}"
+  12. echo "${FEATURE} clear 성공 확인" >> clear_log.txt
+  13. (새 세션 시작시) echo "새 세션 시작 - 다음기능: ${NEXT_FEATURE}" >> clear_log.txt
+  14. curl -H "Content-Type: text/plain; charset=utf-8" -d "새 세션 시작 - 다음기능: ${NEXT_FEATURE}" "https://ntfy.sh/${PWD##*/}"
   15. CLAUDE.md 읽고 [ ] 남은 다음 기능 자동 시작
 - 절대 멈추거나 사용자한테 묻지 말 것
 
@@ -83,7 +89,7 @@
 - 에러 수정 완료되면:
   1. git add . && git commit -m "fix: [기능명] - [에러 한 줄 요약]"
   2. git push
-  3. curl -H "Content-Type: text/plain; charset=utf-8" -d "[기능명] 에러 발생! ERROR.md 확인" "https://ntfy.sh/${PWD##*/}"
+  3. curl -H "Content-Type: text/plain; charset=utf-8" -d "${FEATURE} 에러 발생! ERROR.md 확인" "https://ntfy.sh/${PWD##*/}"
 - 3회 실패시 ERROR.md 기록 후 다음 기능으로 넘어갈 것
 - 절대 멈추지 말 것
 
@@ -98,7 +104,7 @@
 - [x] 버튼클릭카운터
 - [x] 헬로월드2
 - [x] 버튼클릭카운터2
-- [x] 버튼클릭카운터3
+- [ ] 버튼클릭카운터3
 
 ## 완료된 기능
 - 헬로월드 (2026-02-20)

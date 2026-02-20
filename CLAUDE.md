@@ -35,7 +35,7 @@
 ## - 이후: vercel --prod --yes (자동 배포)
 ## - .vercel 폴더 존재 여부로 최초/이후 자동 판단
 ## - 배포 완료 후 URL을 deploy_log.txt에 기록
-- curl -H "Content-Type: text/plain; charset=utf-8" -d "[기능명] 배포완료! [URL]" "https://ntfy.sh/jooladen-${PWD##*/}"
+- curl -H "Content-Type: text/plain; charset=utf-8" -d "[기능명] 배포완료! [URL]" "https://ntfy.sh/${PWD##*/}"
 
 ## 자동화 규칙
 ## 전체자동 헬로월드 버튼클릭카운터 헬로월드2 버튼클릭카운터2 버튼클릭카운터3
@@ -54,17 +54,17 @@
   6. 모든 기능 [x]이면 (마지막 기능):
      ## - vercel --prod --yes (배포)
      ## - 배포 URL을 deploy_log.txt에 기록
-     - curl -H "Content-Type: text/plain; charset=utf-8" -d "[기능명] 완료! 배포: [URL]" "https://ntfy.sh/jooladen-${PWD##*/}"
-     - curl -H "Content-Type: text/plain; charset=utf-8" -d "${PWD##*/} 전체 완료! 🎉" "https://ntfy.sh/jooladen-${PWD##*/}"
+     - curl -H "Content-Type: text/plain; charset=utf-8" -d "[기능명] 완료! 배포: [URL]" "https://ntfy.sh/${PWD##*/}"
+     - curl -H "Content-Type: text/plain; charset=utf-8" -d "${PWD##*/} 전체 완료! 🎉" "https://ntfy.sh/${PWD##*/}"
      - "전체완료!" 출력 후 종료
   7. echo "[기능명] clear 시도" >> clear_log.txt
   8. /clear 실행
   9. /context >> context_after_clear.txt
   10. sleep 3
-  11. curl -H "Content-Type: text/plain; charset=utf-8" -d @context_after_clear.txt "https://ntfy.sh/jooladen-${PWD##*/}"
+  11. curl -H "Content-Type: text/plain; charset=utf-8" -d @context_after_clear.txt "https://ntfy.sh/${PWD##*/}"
   12. echo "[기능명] clear 성공 확인" >> clear_log.txt
   13. (새 세션 시작시) echo "새 세션 시작 - 다음기능: [다음기능명]" >> clear_log.txt
-  14. curl -H "Content-Type: text/plain; charset=utf-8" -d "새 세션 시작 - 다음기능: [다음기능명]" "https://ntfy.sh/jooladen-${PWD##*/}"
+  14. curl -H "Content-Type: text/plain; charset=utf-8" -d "새 세션 시작 - 다음기능: [다음기능명]" "https://ntfy.sh/${PWD##*/}"
   15. CLAUDE.md 읽고 [ ] 남은 다음 기능 자동 시작
 - 절대 멈추거나 사용자한테 묻지 말 것
 
@@ -83,7 +83,7 @@
 - 에러 수정 완료되면:
   1. git add . && git commit -m "fix: [기능명] - [에러 한 줄 요약]"
   2. git push
-  3. curl -H "Content-Type: text/plain; charset=utf-8" -d "[기능명] 에러 발생! ERROR.md 확인" "https://ntfy.sh/jooladen-${PWD##*/}"
+  3. curl -H "Content-Type: text/plain; charset=utf-8" -d "[기능명] 에러 발생! ERROR.md 확인" "https://ntfy.sh/${PWD##*/}"
 - 3회 실패시 ERROR.md 기록 후 다음 기능으로 넘어갈 것
 - 절대 멈추지 말 것
 

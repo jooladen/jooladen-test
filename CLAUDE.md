@@ -35,10 +35,10 @@
 - 이후: vercel --prod --yes (자동 배포)
 - .vercel 폴더 존재 여부로 최초/이후 자동 판단
 - 배포 완료 후 URL을 deploy_log.txt에 기록
-- FOLDER_NAME=$(basename $(pwd)) && node -e "require('https').request('https://ntfy.sh/jooladen-${FOLDER_NAME}',{method:'POST',headers:{'Content-Type':'text/plain; charset=utf-8'}},r=>r.resume()).end(Buffer.from('[기능명] 배포완료! [URL]','utf8'))"
+- for %I in (.) do curl -d "[기능명] 배포완료! [URL]" "https://ntfy.sh/jooladen-%~nxI"
 
 ## 자동화 규칙
-## 전체자동 헬로월드 버튼클릭카운터 헬로월드2
+## 전체자동 헬로월드 버튼클릭카운터 헬로월드2 버튼클릭카운터2
 "전체자동 [기능1] [기능2]..." 라고 하면
 각 기능을 순서대로 멈추지 말고 끝까지 실행할 것
 
@@ -54,17 +54,17 @@
   6. 모든 기능 [x]이면 (마지막 기능):
      - vercel --prod --yes (배포)
      - 배포 URL을 deploy_log.txt에 기록
-     - FOLDER_NAME=$(basename $(pwd)) && node -e "require('https').request('https://ntfy.sh/jooladen-${FOLDER_NAME}',{method:'POST',headers:{'Content-Type':'text/plain; charset=utf-8'}},r=>r.resume()).end(Buffer.from('[기능명] 완료! 배포: [URL]','utf8'))"
-     - FOLDER_NAME=$(basename $(pwd)) && node -e "require('https').request('https://ntfy.sh/jooladen-${FOLDER_NAME}',{method:'POST',headers:{'Content-Type':'text/plain; charset=utf-8'}},r=>r.resume()).end(Buffer.from('${FOLDER_NAME} 전체 완료! 🎉','utf8'))"
+     - for %I in (.) do curl -d "[기능명] 완료! 배포: [URL]" "https://ntfy.sh/jooladen-%~nxI"
+     - for %I in (.) do curl -d "%~nxI 전체 완료! 🎉" "https://ntfy.sh/jooladen-%~nxI"
      - "전체완료!" 출력 후 종료
   7. echo "[기능명] clear 시도" >> clear_log.txt
   8. /clear 실행
   9. /context >> context_after_clear.txt
   10. sleep 3
-  11. FOLDER_NAME=$(basename $(pwd)) && node -e "const fs=require('fs'),https=require('https'),d=fs.readFileSync('context_after_clear.txt');https.request('https://ntfy.sh/jooladen-${FOLDER_NAME}',{method:'POST',headers:{'Content-Type':'text/plain; charset=utf-8','Content-Length':d.length}},r=>r.resume()).end(d)"
+  11. for %I in (.) do curl -d @context_after_clear.txt "https://ntfy.sh/jooladen-%~nxI"
   12. echo "[기능명] clear 성공 확인" >> clear_log.txt
   13. (새 세션 시작시) echo "새 세션 시작 - 다음기능: [다음기능명]" >> clear_log.txt
-  14. FOLDER_NAME=$(basename $(pwd)) && node -e "require('https').request('https://ntfy.sh/jooladen-${FOLDER_NAME}',{method:'POST',headers:{'Content-Type':'text/plain; charset=utf-8'}},r=>r.resume()).end(Buffer.from('새 세션 시작 - 다음기능: [다음기능명]','utf8'))"
+  14. for %I in (.) do curl -d "새 세션 시작 - 다음기능: [다음기능명]" "https://ntfy.sh/jooladen-%~nxI"
   15. CLAUDE.md 읽고 [ ] 남은 다음 기능 자동 시작
 - 절대 멈추거나 사용자한테 묻지 말 것
 
@@ -83,7 +83,7 @@
 - 에러 수정 완료되면:
   1. git add . && git commit -m "fix: [기능명] - [에러 한 줄 요약]"
   2. git push
-  3. FOLDER_NAME=$(basename $(pwd)) && node -e "require('https').request('https://ntfy.sh/jooladen-${FOLDER_NAME}',{method:'POST',headers:{'Content-Type':'text/plain; charset=utf-8'}},r=>r.resume()).end(Buffer.from('[기능명] 에러 발생! ERROR.md 확인','utf8'))"
+  3. for %I in (.) do curl -d "[기능명] 에러 발생! ERROR.md 확인" "https://ntfy.sh/jooladen-%~nxI"
 - 3회 실패시 ERROR.md 기록 후 다음 기능으로 넘어갈 것
 - 절대 멈추지 말 것
 
@@ -97,8 +97,10 @@
 - [x] 헬로월드
 - [x] 버튼클릭카운터
 - [x] 헬로월드2
+- [x] 버튼클릭카운터2
 
 ## 완료된 기능
 - 헬로월드 (2026-02-20)
 - 버튼클릭카운터 (2026-02-20)
 - 헬로월드2 (2026-02-20)
+- 버튼클릭카운터2 (2026-02-20)
